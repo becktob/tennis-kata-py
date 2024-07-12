@@ -18,21 +18,21 @@ class TennisGame4:
 
     def score(self) -> str:
         if self.isDeuce():
-            return TennisResult("Deuce", "").format()
+            return format_score("Deuce", "")
 
         if self.serverHasWon():
-            return TennisResult("Win for " + self.server, "").format()
+            return format_score("Win for " + self.server, "")
 
         if self.receiverHasWon():
-            return TennisResult("Win for " + self.receiver, "").format()
+            return format_score("Win for " + self.receiver, "")
 
         if self.serverHasAdvantage():
-            return TennisResult("Advantage " + self.server, "").format()
+            return format_score("Advantage " + self.server, "")
 
         if self.receiverHasAdvantage():
-            return TennisResult("Advantage " + self.receiver, "").format()
+            return format_score("Advantage " + self.receiver, "")
 
-        return TennisResult(self.scores[self.serverScore], self.scores[self.receiverScore]).format()
+        return format_score(self.scores[self.serverScore], self.scores[self.receiverScore])
 
     def receiverHasAdvantage(self) -> bool:
         return self.receiverScore >= 4 and (self.receiverScore - self.serverScore) == 1
@@ -50,14 +50,9 @@ class TennisGame4:
         return self.serverScore >= 3 and self.receiverScore >= 3 and (self.serverScore == self.receiverScore)
 
 
-class TennisResult:
-    def __init__(self, serverScore: str, receiverScore: str):
-        self.serverScore = serverScore
-        self.receiverScore = receiverScore
-
-    def format(self) -> str:
-        if "" == self.receiverScore:
-            return self.serverScore
-        if self.serverScore == self.receiverScore:
-            return self.serverScore + "-All"
-        return self.serverScore + "-" + self.receiverScore
+def format_score(server_score: str, receiver_score: str) -> str:
+    if "" == receiver_score:
+        return server_score
+    if server_score == receiver_score:
+        return server_score + "-All"
+    return server_score + "-" + receiver_score
