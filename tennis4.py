@@ -21,21 +21,21 @@ class TennisGame4:
             return "Deuce"
 
         if self.serverHasWon():
-            return "Win for " + self.server
+            return f"Win for {self.server}"
 
         if self.receiverHasWon():
-            return "Win for " + self.receiver
+            return f"Win for {self.receiver}"
 
         if self.serverHasAdvantage():
-            return "Advantage " + self.server
+            return f"Advantage {self.server}"
 
         if self.receiverHasAdvantage():
-            return "Advantage " + self.receiver
+            return f"Advantage {self.receiver}"
 
         if self.serverScore == self.receiverScore:
-            return self.scores[self.serverScore] + "-All"
+            return f"{self.scores[self.serverScore]}-All"
 
-        return self.scores[self.serverScore] + "-" + self.scores[self.receiverScore]
+        return f"{self.scores[self.serverScore]}-{self.scores[self.receiverScore]}"
 
     def receiverHasAdvantage(self) -> bool:
         return self.receiverScore >= 4 and (self.receiverScore - self.serverScore) == 1
@@ -50,4 +50,4 @@ class TennisGame4:
         return self.serverScore >= 4 and (self.serverScore - self.receiverScore) >= 2
 
     def isDeuce(self) -> bool:
-        return self.serverScore >= 3 and self.receiverScore >= 3 and (self.serverScore == self.receiverScore)
+        return self.serverScore >= 3 and (self.serverScore == self.receiverScore)
