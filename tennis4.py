@@ -18,21 +18,24 @@ class TennisGame4:
 
     def score(self) -> str:
         if self.isDeuce():
-            return format_score("Deuce", "")
+            return "Deuce"
 
         if self.serverHasWon():
-            return format_score("Win for " + self.server, "")
+            return "Win for " + self.server
 
         if self.receiverHasWon():
-            return format_score("Win for " + self.receiver, "")
+            return "Win for " + self.receiver
 
         if self.serverHasAdvantage():
-            return format_score("Advantage " + self.server, "")
+            return "Advantage " + self.server
 
         if self.receiverHasAdvantage():
-            return format_score("Advantage " + self.receiver, "")
+            return "Advantage " + self.receiver
 
-        return format_score(self.scores[self.serverScore], self.scores[self.receiverScore])
+        if self.serverScore == self.receiverScore:
+            return self.scores[self.serverScore] + "-All"
+
+        return self.scores[self.serverScore] + "-" + self.scores[self.receiverScore]
 
     def receiverHasAdvantage(self) -> bool:
         return self.receiverScore >= 4 and (self.receiverScore - self.serverScore) == 1
@@ -48,11 +51,3 @@ class TennisGame4:
 
     def isDeuce(self) -> bool:
         return self.serverScore >= 3 and self.receiverScore >= 3 and (self.serverScore == self.receiverScore)
-
-
-def format_score(server_score: str, receiver_score: str) -> str:
-    if "" == receiver_score:
-        return server_score
-    if server_score == receiver_score:
-        return server_score + "-All"
-    return server_score + "-" + receiver_score
