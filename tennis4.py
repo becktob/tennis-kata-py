@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
 class TennisGame4:
-    def __init__(self, player1Name, player2Name):
-        self.server = player1Name
-        self.receiver = player2Name
+    def __init__(self, server, receiver):
+        self.server = server
+        self.receiver = receiver
         self.serverScore = 0
         self.receiverScore = 0
 
