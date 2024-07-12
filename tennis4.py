@@ -16,6 +16,7 @@ class TennisGame4:
         else:
             self.receiverScore += 1
 
+    # TODO: a better name would probably be print_score or smth similar
     def score(self) -> str:
         if self.isDeuce():
             return "Deuce"
