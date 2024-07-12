@@ -1,13 +1,15 @@
 # -*- coding: utf-8 -*-
 
+# TODO: rename to TennisGame if API allows for that
 class TennisGame4:
-    def __init__(self, server, receiver):
+    def __init__(self, server: str, receiver: str):
         self.server = server
         self.receiver = receiver
         self.serverScore = 0
         self.receiverScore = 0
 
-    def won_point(self, playerName) -> None:
+    # TODO: playerName -> player_name
+    def won_point(self, playerName: str) -> None:
         if self.server == playerName:
             self.serverScore += 1
         else:
@@ -39,7 +41,7 @@ class TennisGame4:
 
 
 class TennisResult:
-    def __init__(self, serverScore, receiverScore):
+    def __init__(self, serverScore: str, receiverScore: str):
         self.serverScore = serverScore
         self.receiverScore = receiverScore
 
