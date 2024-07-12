@@ -7,6 +7,7 @@ class TennisGame4:
         self.receiver = receiver
         self.serverScore = 0
         self.receiverScore = 0
+        self.scores = ["Love", "Fifteen", "Thirty", "Forty"]
 
     # TODO: playerName -> player_name
     def won_point(self, playerName: str) -> None:
@@ -16,13 +17,22 @@ class TennisGame4:
             self.receiverScore += 1
 
     def score(self) -> str:
-        result = Deuce(
-            self, GameServer(
-                self, GameReceiver(
-                    self, AdvantageServer(
-                        self, AdvantageReceiver(
-                            self, DefaultResult(self)))))).getResult()
-        return result.format()
+        if self.isDeuce():
+            return TennisResult("Deuce", "").format()
+
+        if self.serverHasWon():
+            return TennisResult("Win for " + self.server, "").format()
+
+        if self.receiverHasWon():
+            return TennisResult("Win for " + self.receiver, "").format()
+
+        if self.serverHasAdvantage():
+            return TennisResult("Advantage " + self.server, "").format()
+
+        if self.receiverHasAdvantage():
+            return TennisResult("Advantage " + self.receiver, "").format()
+
+        return TennisResult(self.scores[self.serverScore], self.scores[self.receiverScore]).format()
 
     def receiverHasAdvantage(self) -> bool:
         return self.receiverScore >= 4 and (self.receiverScore - self.serverScore) == 1
@@ -51,67 +61,3 @@ class TennisResult:
         if self.serverScore == self.receiverScore:
             return self.serverScore + "-All"
         return self.serverScore + "-" + self.receiverScore
-
-
-class Deuce:
-    def __init__(self, game, nextResult):
-        self.game = game
-        self.nextResult = nextResult
-
-    def getResult(self) -> TennisResult:
-        if (self.game.isDeuce()):
-            return TennisResult("Deuce", "")
-        return self.nextResult.getResult()
-
-
-class GameServer:
-    def __init__(self, game, nextResult):
-        self.game = game
-        self.nextResult = nextResult
-
-    def getResult(self) -> TennisResult:
-        if (self.game.serverHasWon()):
-            return TennisResult("Win for " + self.game.server, "")
-        return self.nextResult.getResult()
-
-
-class GameReceiver:
-    def __init__(self, game, nextResult):
-        self.game = game
-        self.nextResult = nextResult
-
-    def getResult(self) -> TennisResult:
-        if (self.game.receiverHasWon()):
-            return TennisResult("Win for " + self.game.receiver, "")
-        return self.nextResult.getResult()
-
-
-class AdvantageServer:
-    def __init__(self, game, nextResult):
-        self.game = game
-        self.nextResult = nextResult
-
-    def getResult(self) -> TennisResult:
-        if (self.game.serverHasAdvantage()):
-            return TennisResult("Advantage " + self.game.server, "")
-        return self.nextResult.getResult()
-
-
-class AdvantageReceiver:
-    def __init__(self, game, nextResult):
-        self.game = game
-        self.nextResult = nextResult
-
-    def getResult(self) -> TennisResult:
-        if (self.game.receiverHasAdvantage()):
-            return TennisResult("Advantage " + self.game.receiver, "")
-        return self.nextResult.getResult()
-
-
-class DefaultResult:
-    def __init__(self, game):
-        self.game = game
-        self.scores = ["Love", "Fifteen", "Thirty", "Forty"]
-
-    def getResult(self) -> TennisResult:
-        return TennisResult(self.scores[self.game.serverScore], self.scores[self.game.receiverScore])
